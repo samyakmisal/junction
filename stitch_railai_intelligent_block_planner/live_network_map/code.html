@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RAILAI - Live Network Map</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#bfc6e0",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "surface-container-high": "#242c24",
+                    "error": "#ffb4ab",
+                    "on-primary-container": "#004b1e",
+                    "surface-container-low": "#161d16",
+                    "on-background": "#dce5d9",
+                    "primary-fixed-dim": "#4ae176",
+                    "on-surface": "#dce5d9",
+                    "primary-container": "#22c55e",
+                    "primary": "#4be277",
+                    "inverse-surface": "#dce5d9",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "tertiary-container": "#a4abc4",
+                    "on-error": "#690005",
+                    "surface-variant": "#2f372e",
+                    "on-secondary-fixed-variant": "#153ea3",
+                    "on-primary-fixed-variant": "#005321",
+                    "background": "#0e150e",
+                    "tertiary-fixed": "#dae2fd",
+                    "on-secondary-fixed": "#00164e",
+                    "secondary-fixed": "#dce1ff",
+                    "outline": "#869585",
+                    "secondary": "#b5c4ff",
+                    "on-secondary": "#00287d",
+                    "on-error-container": "#ffdad6",
+                    "primary-fixed": "#6bff8f",
+                    "outline-variant": "#3d4a3d",
+                    "surface-container": "#1a221a",
+                    "on-primary": "#003915",
+                    "inverse-primary": "#006e2f",
+                    "secondary-container": "#153ea3",
+                    "surface-tint": "#4ae176",
+                    "surface-dim": "#0e150e",
+                    "inverse-on-surface": "#2a322a",
+                    "surface": "#0e150e",
+                    "surface-container-lowest": "#091009",
+                    "on-surface-variant": "#bccbb9",
+                    "on-tertiary-container": "#383f54",
+                    "on-primary-fixed": "#002109",
+                    "on-secondary-container": "#9db2ff",
+                    "surface-bright": "#333b33",
+                    "error-container": "#93000a",
+                    "on-tertiary-fixed": "#131b2e",
+                    "secondary-fixed-dim": "#b5c4ff",
+                    "on-tertiary": "#283044",
+                    "surface-container-highest": "#2f372e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "gutter": "16px",
+                    "grid-columns": "12",
+                    "margin-edge": "24px",
+                    "stack-loose": "24px",
+                    "stack-compact": "8px"
+            },
+            "fontFamily": {
+                    "data-compact": ["JetBrains Mono"],
+                    "data-primary": ["JetBrains Mono"],
+                    "headline-md": ["Space Grotesk"],
+                    "display-lg": ["Space Grotesk"],
+                    "label-caps": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "data-compact": ["13px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "data-primary": ["16px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-caps": ["11px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .map-bg {
+            background-color: #0F172A;
+            background-image: 
+                linear-gradient(#1E293B 1px, transparent 1px),
+                linear-gradient(90deg, #1E293B 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center center;
+        }
+        
+        .hud-border {
+            border: 1px solid theme('colors.outline-variant');
+        }
+        
+        .hud-panel {
+            background-color: #1E293B;
+            border: 1px solid theme('colors.outline-variant');
+        }
+        
+        .glass-panel {
+            background-color: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid theme('colors.outline-variant');
+        }
+        
+        .status-bar-green { border-left: 4px solid theme('colors.primary'); }
+        .status-bar-red { border-left: 4px solid theme('colors.error'); }
+        .status-bar-orange { border-left: 4px solid #F59E0B; }
+        
+        /* Map Track Animations */
+        @keyframes flow {
+            0% { stroke-dashoffset: 24; }
+            100% { stroke-dashoffset: 0; }
+        }
+        .track-active {
+            stroke-dasharray: 12, 12;
+            animation: flow 1s linear infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 180, 171, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 180, 171, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 180, 171, 0); }
+        }
+        .marker-critical {
+            animation: pulse 2s infinite;
+            border-color: theme('colors.error') !important;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-data-primary overflow-hidden h-screen flex">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-low dark:bg-surface-container-low h-screen w-20 lg:w-64 flex flex-col fixed left-0 top-0 border-r border-outline-variant dark:border-outline-variant z-50">
+<div class="flex flex-col h-full py-unit px-unit">
+<!-- Brand -->
+<div class="flex items-center gap-3 p-4 mb-4">
+<div class="w-10 h-10 rounded bg-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary-container">train</span>
+</div>
+<div class="hidden lg:block">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary tracking-tighter">RAILAI</div>
+<div class="font-data-compact text-data-compact text-on-surface-variant">OPS_CTRL_01</div>
+</div>
+</div>
+<!-- Tabs -->
+<div class="flex flex-col gap-1 flex-1">
+<!-- Inactive -->
+<a class="flex items-center gap-3 p-3 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="hidden lg:block">Dashboard</span>
+</a>
+<!-- Active -->
+<a class="flex items-center gap-3 p-3 rounded bg-secondary-container text-on-secondary-container border-l-4 border-primary active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="hidden lg:block font-bold">Live Map</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="hidden lg:block">Assets</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">engineering</span>
+<span class="hidden lg:block">Maintenance</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">event_busy</span>
+<span class="hidden lg:block">Block Planner</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">train</span>
+<span class="hidden lg:block">Train Operations</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">warning</span>
+<span class="hidden lg:block">Conflicts</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="hidden lg:block">AI Insights</span>
+</a>
+</div>
+<!-- User Profile (Avatar) -->
+<div class="mt-auto p-4 border-t border-outline-variant flex justify-center lg:justify-start">
+<img alt="Operations Controller Profile" class="w-10 h-10 rounded border border-outline-variant object-cover" data-alt="A futuristic, high-contrast headshot of an operations controller in a technical environment, dramatic lighting, sharp focus, deep shadows, cinematic style, wearing a subtle headset, cool tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALSBFnI7A6ZgS-1H6yhkWt2aWi6xvhXJemN9VZc6giXelnnzmGfQABX6sr-CuhgQbEF2MP0ZXcl6PSrjzeBGlg8SpvKbZmqB1bijrXjOXwOJA4xzQVzcd6JNVxtVfS6NNcorO4B4hHlM9yOxDLkXcyTsXhNMHLscbqT2jCOoEVTbVrUFU2NeOhJw4QcSLc0yl3ZnGu9o3QzexiQ2O73uG88cnQ0AhTNq0tV1D4SeMFyAm5FE0zbjF2"/>
+</div>
+</div>
+</nav>
+<!-- Main Canvas Area -->
+<div class="flex-1 flex flex-col ml-20 lg:ml-64 relative h-full">
+<!-- TopAppBar -->
+<header class="bg-surface-container-lowest dark:bg-surface-container-lowest fixed top-0 right-0 left-0 z-40 h-14 border-b border-outline-variant dark:border-outline-variant flex justify-between items-center px-gutter ml-20 lg:ml-64">
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-label-caps text-on-surface-variant border border-outline-variant px-2 py-1 rounded">SYS_STATUS: ONLINE</span>
+</div>
+<div class="flex items-center gap-4">
+<!-- Trailing Icon Actions -->
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">schedule</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+<div class="h-6 w-px bg-outline-variant mx-2"></div>
+<!-- Trailing Primary Action (Time) -->
+<div class="font-data-compact text-data-compact text-primary font-bold">
+                    30 AUG 2026 02:53
+                </div>
+</div>
+</header>
+<!-- Interactive Map Container -->
+<main class="flex-1 mt-14 relative map-bg overflow-hidden">
+<!-- Map Canvas (SVG for tracks and stations) -->
+<svg class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+<!-- Grid Overlay for extra tech feel -->
+<defs>
+<pattern height="10" id="smallGrid" patternunits="userSpaceOnUse" width="10">
+<path d="M 10 0 L 0 0 0 10" fill="none" opacity="0.2" stroke="#2D3748" stroke-width="0.5"></path>
+</pattern>
+</defs>
+<rect fill="url(#smallGrid)" height="100%" width="100%"></rect>
+<!-- Tracks -->
+<!-- Pune to Lonavala (Normal / Pending Block) -->
+<path class="track-active cursor-pointer hover:stroke-yellow-400" d="M 300 400 Q 500 200 700 300" fill="none" stroke="#F59E0B" stroke-width="4"></path>
+<path d="M 300 400 Q 500 200 700 300" fill="none" opacity="0.3" stroke="#F59E0B" stroke-width="8"></path>
+<!-- Lonavala to Karjat (Blocked) -->
+<path d="M 700 300 L 900 150" fill="none" stroke="#ffb4ab" stroke-dasharray="10 5" stroke-width="4"></path>
+<!-- Pune to Daund (Normal) -->
+<path class="track-active" d="M 300 400 L 150 600" fill="none" stroke="#4be277" stroke-width="4"></path>
+<!-- Stations -->
+<!-- Station A: Pune -->
+<g transform="translate(300, 400)">
+<circle cx="0" cy="0" fill="#1E293B" r="12" stroke="#4be277" stroke-width="2"></circle>
+<circle cx="0" cy="0" fill="#4be277" r="4"></circle>
+<text fill="#dce5d9" font-family="JetBrains Mono" font-size="14" x="20" y="5">PUNE_JN (STN_A)</text>
+</g>
+<!-- Station B: Lonavala -->
+<g transform="translate(700, 300)">
+<circle cx="0" cy="0" fill="#1E293B" r="12" stroke="#F59E0B" stroke-width="2"></circle>
+<circle cx="0" cy="0" fill="#F59E0B" r="4"></circle>
+<text fill="#dce5d9" font-family="JetBrains Mono" font-size="14" x="20" y="5">LNL (STN_B)</text>
+</g>
+<!-- Station C: Karjat -->
+<g transform="translate(900, 150)">
+<circle cx="0" cy="0" fill="#1E293B" r="12" stroke="#ffb4ab" stroke-width="2"></circle>
+<circle cx="0" cy="0" fill="#ffb4ab" r="4"></circle>
+<text fill="#dce5d9" font-family="JetBrains Mono" font-size="14" x="20" y="5">KJT (STN_C)</text>
+</g>
+<!-- Asset Markers on Track -->
+<!-- Normal Asset -->
+<g transform="translate(450, 275)">
+<rect fill="#334155" height="12" stroke="#ffffff" stroke-width="1" width="12" x="-6" y="-6"></rect>
+<circle cx="0" cy="0" fill="#4be277" r="2"></circle>
+</g>
+<!-- Critical Asset (Pulsing Red) -->
+<g class="marker-critical rounded" transform="translate(800, 225)">
+<rect fill="#334155" height="12" stroke="#ffb4ab" stroke-width="2" width="12" x="-6" y="-6"></rect>
+<text fill="#ffb4ab" font-family="Material Symbols Outlined" font-size="10" x="-4" y="3">warning</text>
+</g>
+</svg>
+<!-- Map Controls (Zoom/Filter) -->
+<div class="absolute bottom-6 left-6 flex flex-col gap-4">
+<!-- Zoom Controls -->
+<div class="hud-panel rounded flex flex-col p-1">
+<button class="p-2 hover:bg-surface-variant text-on-surface transition-colors rounded">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+<div class="h-px bg-outline-variant my-1"></div>
+<button class="p-2 hover:bg-surface-variant text-on-surface transition-colors rounded">
+<span class="material-symbols-outlined text-lg">remove</span>
+</button>
+</div>
+<!-- Filters -->
+<div class="hud-panel rounded p-3 w-48 font-data-compact text-data-compact">
+<div class="font-bold mb-2 border-b border-outline-variant pb-1">LAYER FILTERS</div>
+<label class="flex items-center gap-2 mb-2 cursor-pointer group">
+<input checked="" class="form-checkbox bg-surface-variant border-outline-variant text-primary rounded-sm focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="group-hover:text-primary transition-colors">Assets (Track)</span>
+</label>
+<label class="flex items-center gap-2 mb-2 cursor-pointer group">
+<input checked="" class="form-checkbox bg-surface-variant border-outline-variant text-primary rounded-sm focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="group-hover:text-primary transition-colors">Signals</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="form-checkbox bg-surface-variant border-outline-variant text-primary rounded-sm focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="text-on-surface-variant group-hover:text-primary transition-colors">Dept: Traction</span>
+</label>
+</div>
+</div>
+<!-- Legend -->
+<div class="absolute bottom-6 left-60 ml-4 glass-panel rounded p-3 font-data-compact text-data-compact flex gap-4 items-center">
+<div class="font-bold border-r border-outline-variant pr-4">LEGEND</div>
+<div class="flex items-center gap-2"><div class="w-3 h-3 bg-primary rounded-sm"></div> OPR (Normal)</div>
+<div class="flex items-center gap-2"><div class="w-3 h-3 bg-yellow-500 rounded-sm"></div> MNT (Pending)</div>
+<div class="flex items-center gap-2"><div class="w-3 h-3 bg-error rounded-sm"></div> BLK (Blocked)</div>
+</div>
+<!-- Right Side Panel: Section Details (Bento/Glassmorphism style) -->
+<div class="absolute top-4 right-4 bottom-4 w-80 glass-panel rounded-lg flex flex-col overflow-hidden shadow-2xl">
+<!-- Panel Header -->
+<div class="p-4 border-b border-outline-variant bg-[#1E293B]">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant">SECTION SELECTION</span>
+<button class="text-on-surface-variant hover:text-white"><span class="material-symbols-outlined text-sm">close</span></button>
+</div>
+<h2 class="font-headline-md text-headline-md tracking-tight text-white">Pune - Lonavala</h2>
+<div class="font-data-compact text-data-compact text-on-surface-variant mt-1">SEC_ID: TRK_PN_LN_01</div>
+</div>
+<!-- Panel Content Scrollable -->
+<div class="p-4 flex-1 overflow-y-auto flex flex-col gap-4">
+<!-- Status Badge -->
+<div class="hud-panel p-3 rounded status-bar-orange flex justify-between items-center">
+<div>
+<div class="font-bold text-yellow-500">WNG: MAINT PENDING</div>
+<div class="font-data-compact text-data-compact text-on-surface-variant">Upcoming Block</div>
+</div>
+<div class="font-data-compact bg-surface-variant px-2 py-1 rounded border border-outline-variant">
+                            02:00-03:30
+                        </div>
+</div>
+<!-- Data Grid (Bento style) -->
+<div class="grid grid-cols-2 gap-2">
+<div class="hud-panel p-3 rounded flex flex-col">
+<span class="font-label-caps text-on-surface-variant mb-1">TRAINS AFFECTED</span>
+<span class="font-display-lg text-display-lg text-white">0</span>
+</div>
+<div class="hud-panel p-3 rounded flex flex-col">
+<span class="font-label-caps text-on-surface-variant mb-1">CAPACITY UTIL</span>
+<span class="font-display-lg text-display-lg text-white">42%</span>
+</div>
+</div>
+<!-- Alternate Track Info -->
+<div class="hud-panel p-3 rounded border border-primary/30">
+<span class="font-label-caps text-primary mb-2 block">ROUTING STATUS</span>
+<div class="flex items-center justify-between">
+<span class="text-white">Alternative Track</span>
+<span class="text-primary font-bold">AVAILABLE (Track 2)</span>
+</div>
+</div>
+<!-- XAI Card (Explainable AI) -->
+<div class="bg-[#334155] p-3 rounded border border-secondary-container mt-2 relative overflow-hidden">
+<!-- subtle bg glow -->
+<div class="absolute -top-10 -right-10 w-20 h-20 bg-secondary-container opacity-20 blur-xl rounded-full"></div>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary-container text-sm">psychology</span>
+<span class="font-label-caps text-secondary">AI INSIGHT</span>
+</div>
+<div class="font-data-compact text-data-compact text-[#bccbb9] mb-3">
+<span class="text-primary">IF</span> [MAINT_REQ_992] &gt; CRIT_THRESH <br/>
+<span class="text-primary">THEN</span> PRE-EMPTIVE BLOCK REQ
+                        </div>
+<div>
+<div class="flex justify-between font-label-caps mb-1">
+<span class="text-on-surface-variant">CONFIDENCE SCORE</span>
+<span class="text-secondary">94%</span>
+</div>
+<div class="w-full h-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container w-[94%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Panel Footer Actions -->
+<div class="p-4 border-t border-outline-variant bg-[#1E293B] flex gap-2">
+<button class="flex-1 bg-primary text-black font-bold py-2 rounded uppercase text-sm hover:bg-primary-fixed-dim transition-colors">
+                        Approve Block
+                    </button>
+<button class="flex-1 border border-secondary-container text-secondary font-bold py-2 rounded uppercase text-sm hover:bg-surface-variant transition-colors">
+                        Re-route
+                    </button>
+</div>
+</div>
+</main>
+</div>
+</body></html>

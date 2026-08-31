@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RAILAI - AI Block Planner</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Space+Grotesk:wght@600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary": "#bfc6e0",
+                      "tertiary-fixed-dim": "#bec6e0",
+                      "surface-container-high": "#242c24",
+                      "error": "#ffb4ab",
+                      "on-primary-container": "#004b1e",
+                      "surface-container-low": "#161d16",
+                      "on-background": "#dce5d9",
+                      "primary-fixed-dim": "#4ae176",
+                      "on-surface": "#dce5d9",
+                      "primary-container": "#22c55e",
+                      "primary": "#4be277",
+                      "inverse-surface": "#dce5d9",
+                      "on-tertiary-fixed-variant": "#3f465c",
+                      "tertiary-container": "#a4abc4",
+                      "on-error": "#690005",
+                      "surface-variant": "#2f372e",
+                      "on-secondary-fixed-variant": "#153ea3",
+                      "on-primary-fixed-variant": "#005321",
+                      "background": "#0e150e",
+                      "tertiary-fixed": "#dae2fd",
+                      "on-secondary-fixed": "#00164e",
+                      "secondary-fixed": "#dce1ff",
+                      "outline": "#869585",
+                      "secondary": "#b5c4ff",
+                      "on-secondary": "#00287d",
+                      "on-error-container": "#ffdad6",
+                      "primary-fixed": "#6bff8f",
+                      "outline-variant": "#3d4a3d",
+                      "surface-container": "#1a221a",
+                      "on-primary": "#003915",
+                      "inverse-primary": "#006e2f",
+                      "secondary-container": "#153ea3",
+                      "surface-tint": "#4ae176",
+                      "surface-dim": "#0e150e",
+                      "inverse-on-surface": "#2a322a",
+                      "surface": "#0e150e",
+                      "surface-container-lowest": "#091009",
+                      "on-surface-variant": "#bccbb9",
+                      "on-tertiary-container": "#383f54",
+                      "on-primary-fixed": "#002109",
+                      "on-secondary-container": "#9db2ff",
+                      "surface-bright": "#333b33",
+                      "error-container": "#93000a",
+                      "on-tertiary-fixed": "#131b2e",
+                      "secondary-fixed-dim": "#b5c4ff",
+                      "on-tertiary": "#283044",
+                      "surface-container-highest": "#2f372e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "gutter": "16px",
+                      "grid-columns": "12",
+                      "margin-edge": "24px",
+                      "stack-loose": "24px",
+                      "stack-compact": "8px"
+              },
+              "fontFamily": {
+                      "data-compact": [
+                              "JetBrains Mono"
+                      ],
+                      "data-primary": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-md": [
+                              "Space Grotesk"
+                      ],
+                      "display-lg": [
+                              "Space Grotesk"
+                      ],
+                      "label-caps": [
+                              "JetBrains Mono"
+                      ]
+              },
+              "fontSize": {
+                      "data-compact": [
+                              "13px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "data-primary": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .gantt-bg {
+            background-image: linear-gradient(to right, #3d4a3d 1px, transparent 1px);
+            background-size: 50px 100%;
+        }
+        .hazard-stripe {
+            background: repeating-linear-gradient(
+                45deg,
+                #ffb4ab,
+                #ffb4ab 10px,
+                #93000a 10px,
+                #93000a 20px
+            );
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-data-primary text-data-primary h-screen overflow-hidden flex">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-low dark:bg-surface-container-low text-primary dark:text-primary font-data-primary text-data-primary h-screen w-20 lg:w-64 flex flex-col fixed left-0 top-0 border-r border-outline-variant dark:border-outline-variant z-50">
+<div class="flex flex-col h-full py-unit">
+<div class="px-4 py-6 flex items-center justify-center lg:justify-start gap-4">
+<span class="material-symbols-outlined text-3xl" data-icon="train" data-weight="fill" style="font-variation-settings: 'FILL' 1;">train</span>
+<div class="hidden lg:block">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary tracking-tighter">RAILAI</h1>
+<p class="font-data-compact text-data-compact text-on-surface-variant">OPS_CTRL_01</p>
+</div>
+</div>
+<div class="flex-1 mt-8 space-y-2 px-2">
+<a class="flex items-center gap-4 px-4 py-3 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 active:scale-95 transition-transform group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="dashboard">dashboard</span>
+<span class="hidden lg:block">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 active:scale-95 transition-transform group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="map">map</span>
+<span class="hidden lg:block">Live Map</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 active:scale-95 transition-transform group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="inventory_2">inventory_2</span>
+<span class="hidden lg:block">Assets</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 active:scale-95 transition-transform group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="engineering">engineering</span>
+<span class="hidden lg:block">Maintenance</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-DEFAULT bg-secondary-container text-on-secondary-container border-l-4 border-primary hover:bg-surface-variant transition-colors duration-150 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="event_busy">event_busy</span>
+<span class="hidden lg:block font-bold">Block Planner</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 active:scale-95 transition-transform group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="train">train</span>
+<span class="hidden lg:block">Train Operations</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 active:scale-95 transition-transform group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="warning">warning</span>
+<span class="hidden lg:block">Conflicts</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-DEFAULT text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 active:scale-95 transition-transform group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="psychology">psychology</span>
+<span class="hidden lg:block">AI Insights</span>
+</a>
+</div>
+<div class="mt-auto px-4 py-6 border-t border-outline-variant flex items-center justify-center lg:justify-start gap-4 cursor-pointer hover:bg-surface-variant transition-colors">
+<img alt="Operations Controller Profile" class="w-10 h-10 rounded-full border border-primary object-cover" data-alt="A futuristic, slightly glowing circular avatar profile picture of an operator with a headset, set against a dark technical HUD background, moody lighting, highly detailed, photorealistic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6oraBcykaegtqA0gsRw5XIcKqMEreJI4E0GsuHp7PhLwbxaLQdW88mTh1Ca7CWdVNNjexrdWL0wa12Xp3iA7bgtZ6WVJsaZs-KwVwybnvut_JhxLpg92-uVqVtB9nQY4Woh4NhZ5CujTE3nOjgek9f6uZ_LmLPG92xOh3O09hHaBRVvhsgrUoeeMZkyO0mSvxYj3_7ELpgvZ_FMEfkD7kJDNm15Kav029khiL9SjT_rp63ukviCGQ"/>
+<div class="hidden lg:block">
+<p class="font-data-primary text-data-primary text-on-surface">OPS_CTRL_01</p>
+<p class="font-data-compact text-data-compact text-on-surface-variant">Active</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- TopAppBar -->
+<header class="bg-surface-container-lowest dark:bg-surface-container-lowest text-primary dark:text-primary font-data-compact text-data-compact fixed top-0 right-0 left-0 z-40 h-14 border-b border-outline-variant dark:border-outline-variant flex justify-between items-center w-full px-gutter ml-20 lg:ml-64 transition-all duration-300">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md text-primary dark:text-primary tracking-tighter hidden md:block">RAILAI</span>
+<span class="text-on-surface-variant px-2 border-l border-outline-variant hidden md:block">AI Block Planner Mode</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-high transition-colors p-1 rounded-full" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-high transition-colors p-1 rounded-full" data-icon="schedule">schedule</span>
+<span class="material-symbols-outlined cursor-pointer hover:bg-surface-container-high transition-colors p-1 rounded-full" data-icon="account_circle">account_circle</span>
+</div>
+<div class="text-primary font-bold px-3 py-1 bg-surface-container-high rounded-DEFAULT border border-outline-variant">
+                30 AUG 2026 02:53
+            </div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-20 lg:ml-64 mt-14 p-gutter flex flex-col gap-gutter h-[calc(100vh-3.5rem)] w-full overflow-hidden transition-all duration-300">
+<!-- Header -->
+<div class="flex justify-between items-end mb-2">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-1">AI Optimization Engine</h2>
+<p class="font-data-compact text-data-compact text-on-surface-variant">Automated scheduling and conflict resolution for maintenance blocks.</p>
+</div>
+<div class="flex items-center gap-2 border border-outline-variant p-2 bg-surface-container-low">
+<span class="font-data-compact text-data-compact text-on-surface-variant">ENGINE_STATUS:</span>
+<span class="text-primary font-bold">ONLINE</span>
+<span class="material-symbols-outlined text-primary text-sm animate-pulse" data-icon="trip_origin" data-weight="fill" style="font-variation-settings: 'FILL' 1;">trip_origin</span>
+</div>
+</div>
+<div class="flex-1 grid grid-cols-12 gap-gutter overflow-hidden">
+<!-- Left Column: Settings & Recommendation -->
+<div class="col-span-12 xl:col-span-3 flex flex-col gap-gutter overflow-y-auto pr-2">
+<!-- 3-Step Selection Panel -->
+<div class="bg-surface-container p-4 border border-outline-variant relative overflow-hidden group">
+<div class="absolute inset-0 bg-primary opacity-5 group-hover:opacity-10 transition-opacity"></div>
+<h3 class="font-data-primary text-data-primary text-on-surface mb-4 border-b border-outline-variant pb-2 uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="settings">settings</span>
+                        Parameters
+                    </h3>
+<div class="space-y-4 relative z-10">
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-1">1. Section</label>
+<div class="bg-surface-container-low border border-outline-variant p-2 flex justify-between items-center text-on-surface">
+<span>PUNE - LONAVALA</span>
+<span class="material-symbols-outlined text-sm text-primary" data-icon="check_circle">check_circle</span>
+</div>
+</div>
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-1">2. Date Window</label>
+<div class="bg-surface-container-low border border-outline-variant p-2 flex justify-between items-center text-on-surface">
+<span>30 AUG 2026</span>
+<span class="material-symbols-outlined text-sm text-primary" data-icon="check_circle">check_circle</span>
+</div>
+</div>
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-1">3. Required Jobs</label>
+<div class="flex gap-2">
+<div class="bg-surface-container-low border border-outline-variant p-2 flex-1 text-center text-on-surface text-sm">
+                                    ENG
+                                </div>
+<div class="bg-surface-container-low border border-outline-variant p-2 flex-1 text-center text-on-surface text-sm">
+                                    OHE
+                                </div>
+<div class="bg-surface-variant border border-outline-variant p-2 flex-1 text-center text-on-surface-variant text-sm opacity-50 cursor-not-allowed">
+                                    SIG
+                                </div>
+</div>
+</div>
+<button class="w-full bg-surface-variant border border-primary text-primary py-2 mt-2 hover:bg-primary hover:text-surface-container-lowest transition-colors font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="sync">sync</span>
+                            Recalculate
+                        </button>
+</div>
+</div>
+<!-- Recommendation Analysis Panel -->
+<div class="bg-surface-container p-4 border border-secondary relative overflow-hidden flex-1 flex flex-col">
+<div class="absolute top-0 right-0 p-2 opacity-20">
+<span class="material-symbols-outlined text-6xl text-secondary" data-icon="psychology">psychology</span>
+</div>
+<h3 class="font-data-primary text-data-primary text-secondary mb-4 border-b border-outline-variant pb-2 uppercase tracking-widest flex items-center gap-2 relative z-10">
+<span class="material-symbols-outlined text-lg" data-icon="auto_awesome">auto_awesome</span>
+                        AI Recommendation
+                    </h3>
+<div class="relative z-10 flex-1 flex flex-col">
+<div class="mb-4">
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-1">Optimal Window</label>
+<div class="text-2xl font-headline-md text-primary tracking-tight">02:15 - 03:45</div>
+<div class="font-data-compact text-data-compact text-on-surface-variant">Duration: 90 mins</div>
+</div>
+<div class="mb-4 bg-surface-container-low border border-outline-variant p-3">
+<div class="flex justify-between items-end mb-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Impact Score</label>
+<span class="font-bold text-primary">LOW (8/100)</span>
+</div>
+<div class="w-full bg-surface h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[8%]"></div>
+</div>
+</div>
+<div class="mb-6 flex-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-2">Analysis Breakdown</label>
+<ul class="space-y-2 font-data-compact text-data-compact">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary text-sm mt-0.5" data-icon="check">check</span>
+<span class="text-on-surface">Low traffic density (-85% avg)</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary text-sm mt-0.5" data-icon="check">check</span>
+<span class="text-on-surface">Coordinated works possible</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary text-sm mt-0.5" data-icon="check">check</span>
+<span class="text-on-surface">Alternative routing active via Line B</span>
+</li>
+</ul>
+<div class="mt-4 p-2 border border-secondary border-dashed font-data-compact text-data-compact text-secondary bg-surface-container-low bg-opacity-50">
+<code>IF [DENSITY &lt; 10] AND [LINE_B == CLEAR] THEN OPTIMAL</code>
+</div>
+</div>
+<div class="flex gap-2 mt-auto">
+<button class="flex-1 bg-primary text-surface-container-lowest font-bold py-2 hover:bg-primary-fixed transition-colors">APPROVE</button>
+<button class="flex-1 border border-primary text-primary font-bold py-2 hover:bg-surface-variant transition-colors">MODIFY</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Gantt Timeline -->
+<div class="col-span-12 xl:col-span-9 bg-surface-container border border-outline-variant flex flex-col overflow-hidden relative">
+<!-- Time Axis Header -->
+<div class="flex h-10 border-b border-outline-variant bg-surface-container-high font-data-compact text-data-compact text-on-surface-variant sticky top-0 z-20">
+<div class="w-40 border-r border-outline-variant flex items-center px-4 shrink-0 font-bold bg-surface-container-high">Resource</div>
+<div class="flex-1 relative gantt-bg flex items-end pb-1">
+<!-- Time Markers -->
+<div class="absolute left-0 transform -translate-x-1/2">00:00</div>
+<div class="absolute left-[16.66%] transform -translate-x-1/2">01:00</div>
+<div class="absolute left-[33.33%] transform -translate-x-1/2 text-primary font-bold">02:00</div>
+<div class="absolute left-[50%] transform -translate-x-1/2 text-primary font-bold">03:00</div>
+<div class="absolute left-[66.66%] transform -translate-x-1/2">04:00</div>
+<div class="absolute left-[83.33%] transform -translate-x-1/2">05:00</div>
+<div class="absolute left-[100%] transform -translate-x-1/2">06:00</div>
+<!-- AI Window Highlight Overlay (Background) -->
+<div class="absolute h-full top-0 left-[37.5%] w-[25%] bg-primary opacity-10 border-x border-primary pointer-events-none"></div>
+</div>
+</div>
+<!-- Scrollable Gantt Body -->
+<div class="flex-1 overflow-y-auto relative">
+<!-- AI Window Highlight Vertical Guide -->
+<div class="absolute h-full top-0 left-[37.5%] w-[25%] border-x border-primary border-dashed opacity-30 pointer-events-none z-10 bg-primary/5"></div>
+<!-- Current Time Indicator -->
+<div class="absolute h-full top-0 left-[48%] w-px bg-error z-20 pointer-events-none shadow-[0_0_8px_#ffb4ab]">
+<div class="absolute -top-1 -left-1 w-2 h-2 rounded-full bg-error"></div>
+</div>
+<!-- Row 1: Train Movements -->
+<div class="flex h-16 border-b border-outline-variant group hover:bg-surface-variant/50 transition-colors">
+<div class="w-40 border-r border-outline-variant flex flex-col justify-center px-4 shrink-0 bg-surface-container z-10">
+<span class="text-on-surface font-bold text-sm">MOVEMENTS</span>
+<span class="text-on-surface-variant text-xs">PUN-LNV</span>
+</div>
+<div class="flex-1 relative gantt-bg">
+<!-- Train Blocks -->
+<div class="absolute top-3 left-[5%] w-[10%] h-10 bg-surface-container-high border border-outline-variant flex items-center justify-center text-xs text-on-surface cursor-help group/block">
+                                EXP_101
+                                <!-- Tooltip -->
+<div class="hidden group-hover/block:block absolute -top-12 left-1/2 transform -translate-x-1/2 bg-surface-container-highest border border-outline-variant p-2 z-50 shadow-lg whitespace-nowrap">
+                                    T_ID: EXP_101 | DIR: UP | STS: OPR
+                                </div>
+</div>
+<div class="absolute top-3 left-[20%] w-[12%] h-10 bg-surface-container-high border border-outline-variant flex items-center justify-center text-xs text-on-surface cursor-help group/block">
+                                FRT_2A
+                            </div>
+<div class="absolute top-3 left-[70%] w-[15%] h-10 bg-surface-container-high border border-outline-variant flex items-center justify-center text-xs text-on-surface cursor-help group/block">
+                                EXP_103
+                            </div>
+</div>
+</div>
+<!-- Row 2: Engineering Possession -->
+<div class="flex h-16 border-b border-outline-variant group hover:bg-surface-variant/50 transition-colors">
+<div class="w-40 border-r border-outline-variant flex flex-col justify-center px-4 shrink-0 bg-surface-container z-10">
+<span class="text-on-surface font-bold text-sm">ENG POSS</span>
+<span class="text-on-surface-variant text-xs">Track Maint.</span>
+</div>
+<div class="flex-1 relative gantt-bg">
+<!-- Existing Block -->
+<div class="absolute top-3 left-[10%] w-[15%] h-10 border border-outline-variant bg-surface-container-high flex items-center px-2 text-xs text-on-surface">
+<div class="w-1 h-full bg-tertiary mr-2"></div>
+                                MAINT_A
+                            </div>
+<!-- AI Suggested Block -->
+<div class="absolute top-2 left-[37.5%] w-[25%] h-12 border-2 border-primary bg-primary/20 flex flex-col items-center justify-center text-xs text-primary font-bold shadow-[0_0_10px_rgba(75,226,119,0.2)] animate-pulse-slow">
+<span>AI_PROP_ENG</span>
+<span class="font-data-compact font-normal opacity-80">02:15 - 03:45</span>
+</div>
+</div>
+</div>
+<!-- Row 3: OHE Possession -->
+<div class="flex h-16 border-b border-outline-variant group hover:bg-surface-variant/50 transition-colors">
+<div class="w-40 border-r border-outline-variant flex flex-col justify-center px-4 shrink-0 bg-surface-container z-10">
+<span class="text-on-surface font-bold text-sm">OHE POSS</span>
+<span class="text-on-surface-variant text-xs">Overhead Eq.</span>
+</div>
+<div class="flex-1 relative gantt-bg">
+<!-- AI Suggested Block -->
+<div class="absolute top-2 left-[37.5%] w-[25%] h-12 border-2 border-primary bg-primary/20 flex flex-col items-center justify-center text-xs text-primary font-bold shadow-[0_0_10px_rgba(75,226,119,0.2)] animate-pulse-slow">
+<span>AI_PROP_OHE</span>
+<span class="font-data-compact font-normal opacity-80">02:15 - 03:45</span>
+</div>
+<!-- Conflict Indicator -->
+<div class="absolute top-3 left-[80%] w-[10%] h-10 border border-error hazard-stripe flex items-center justify-center text-xs text-surface-container-lowest font-bold cursor-help group/block">
+                                !
+                                <div class="hidden group-hover/block:block absolute -top-12 left-1/2 transform -translate-x-1/2 bg-surface-container-highest border border-error text-error p-2 z-50 shadow-lg whitespace-nowrap font-normal">
+                                    CONFL: OHE/FRT_3B OVERLAP
+                                </div>
+</div>
+</div>
+</div>
+<!-- Row 4: Signalling (Inactive) -->
+<div class="flex h-16 border-b border-outline-variant opacity-50 bg-surface-container-low">
+<div class="w-40 border-r border-outline-variant flex flex-col justify-center px-4 shrink-0 bg-surface-container-low z-10">
+<span class="text-on-surface-variant font-bold text-sm">SIG POSS</span>
+<span class="text-outline text-xs">Not Requested</span>
+</div>
+<div class="flex-1 relative gantt-bg">
+</div>
+</div>
+<!-- Atmospheric spacer -->
+<div class="h-32 gantt-bg opacity-20"></div>
+</div>
+<!-- Legend Footer -->
+<div class="h-10 border-t border-outline-variant bg-surface-container-high flex items-center px-4 gap-6 font-data-compact text-data-compact text-on-surface-variant">
+<span class="font-bold">LEGEND:</span>
+<div class="flex items-center gap-2"><div class="w-3 h-3 bg-surface-container-high border border-outline-variant"></div> Scheduled</div>
+<div class="flex items-center gap-2"><div class="w-3 h-3 bg-primary/20 border border-primary"></div> AI Proposed</div>
+<div class="flex items-center gap-2"><div class="w-3 h-3 hazard-stripe border border-error"></div> Conflict</div>
+<div class="flex items-center gap-2 ml-auto">
+<span class="material-symbols-outlined text-sm" data-icon="mouse">mouse</span>
+                        Scroll to pan, Ctrl+Scroll to zoom
+                    </div>
+</div>
+</div>
+</div>
+</main>
+<style>
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</body></html>

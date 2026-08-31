@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RAILAI - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary": "#bfc6e0",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "surface-container-high": "#242c24",
+                        "error": "#ffb4ab",
+                        "on-primary-container": "#004b1e",
+                        "surface-container-low": "#161d16",
+                        "on-background": "#dce5d9",
+                        "primary-fixed-dim": "#4ae176",
+                        "on-surface": "#dce5d9",
+                        "primary-container": "#22c55e",
+                        "primary": "#4be277",
+                        "inverse-surface": "#dce5d9",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "tertiary-container": "#a4abc4",
+                        "on-error": "#690005",
+                        "surface-variant": "#2f372e",
+                        "on-secondary-fixed-variant": "#153ea3",
+                        "on-primary-fixed-variant": "#005321",
+                        "background": "#0e150e",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-secondary-fixed": "#00164e",
+                        "secondary-fixed": "#dce1ff",
+                        "outline": "#869585",
+                        "secondary": "#b5c4ff",
+                        "on-secondary": "#00287d",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed": "#6bff8f",
+                        "outline-variant": "#3d4a3d",
+                        "surface-container": "#1a221a",
+                        "on-primary": "#003915",
+                        "inverse-primary": "#006e2f",
+                        "secondary-container": "#153ea3",
+                        "surface-tint": "#4ae176",
+                        "surface-dim": "#0e150e",
+                        "inverse-on-surface": "#2a322a",
+                        "surface": "#0e150e",
+                        "surface-container-lowest": "#091009",
+                        "on-surface-variant": "#bccbb9",
+                        "on-tertiary-container": "#383f54",
+                        "on-primary-fixed": "#002109",
+                        "on-secondary-container": "#9db2ff",
+                        "surface-bright": "#333b33",
+                        "error-container": "#93000a",
+                        "on-tertiary-fixed": "#131b2e",
+                        "secondary-fixed-dim": "#b5c4ff",
+                        "on-tertiary": "#283044",
+                        "surface-container-highest": "#2f372e"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "unit": "4px",
+                        "gutter": "16px",
+                        "grid-columns": "12",
+                        "margin-edge": "24px",
+                        "stack-loose": "24px",
+                        "stack-compact": "8px"
+                    },
+                    fontFamily: {
+                        "data-compact": ["JetBrains Mono"],
+                        "data-primary": ["JetBrains Mono"],
+                        "headline-md": ["Space Grotesk"],
+                        "display-lg": ["Space Grotesk"],
+                        "label-caps": ["JetBrains Mono"]
+                    },
+                    fontSize: {
+                        "data-compact": ["13px", { lineHeight: "1.4", letterSpacing: "0.01em", fontWeight: "400" }],
+                        "data-primary": ["16px", { lineHeight: "1.5", letterSpacing: "0em", fontWeight: "500" }],
+                        "headline-md": ["24px", { lineHeight: "1.2", letterSpacing: "0.02em", fontWeight: "600" }],
+                        "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "label-caps": ["11px", { lineHeight: "1.2", letterSpacing: "0.1em", fontWeight: "700" }]
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .filled-icon { font-variation-settings: 'FILL' 1; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: theme('colors.outline-variant'); }
+        ::-webkit-scrollbar-thumb:hover { background: theme('colors.outline'); }
+        
+        .status-bar-opr { border-left: 4px solid theme('colors.primary'); }
+        .status-bar-wng { border-left: 4px solid #f97316; } /* Orange */
+        .status-bar-blk { border-left: 4px solid theme('colors.error'); }
+    </style>
+</head>
+<body class="font-data-primary text-data-primary bg-background antialiased flex">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-low dark:bg-surface-container-low text-primary dark:text-primary font-data-primary text-data-primary h-screen w-20 lg:w-64 flex flex-col fixed left-0 top-0 border-r border-outline-variant dark:border-outline-variant flat no shadows z-50">
+<div class="flex flex-col h-full py-unit">
+<div class="px-4 py-6 flex items-center justify-center lg:justify-start gap-4 mb-4 border-b border-outline-variant pb-6">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary-container">person</span>
+</div>
+<div class="hidden lg:flex flex-col">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary tracking-tighter">RAILAI</span>
+<span class="font-data-compact text-data-compact text-on-surface-variant">OPS_CTRL_01</span>
+</div>
+</div>
+<ul class="flex-1 overflow-y-auto w-full px-2 space-y-1">
+<li>
+<a class="flex items-center px-4 py-3 bg-secondary-container text-on-secondary-container border-l-4 border-primary active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined filled-icon">dashboard</span>
+<span class="ml-4 hidden lg:block">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 border-l-4 border-transparent active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="ml-4 hidden lg:block">Live Map</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 border-l-4 border-transparent active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="ml-4 hidden lg:block">Assets</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 border-l-4 border-transparent active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">engineering</span>
+<span class="ml-4 hidden lg:block">Maintenance</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 border-l-4 border-transparent active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">event_busy</span>
+<span class="ml-4 hidden lg:block">Block Planner</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 border-l-4 border-transparent active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">train</span>
+<span class="ml-4 hidden lg:block">Train Operations</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 border-l-4 border-transparent active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">warning</span>
+<span class="ml-4 hidden lg:block">Conflicts</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors duration-150 border-l-4 border-transparent active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="ml-4 hidden lg:block">AI Insights</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 ml-20 lg:ml-64 flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-surface-container-lowest dark:bg-surface-container-lowest text-primary dark:text-primary font-data-compact text-data-compact fixed top-0 right-0 left-0 z-40 h-14 border-b border-outline-variant dark:border-outline-variant flat no shadows flex justify-between items-center w-full px-gutter ml-20 lg:ml-64 pr-20 lg:pr-64 box-border">
+<div class="flex items-center">
+<span class="font-headline-md text-headline-md text-primary dark:text-primary font-bold tracking-tighter">RAILAI</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 mr-4">
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors rounded cursor-pointer">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors rounded cursor-pointer">
+<span class="material-symbols-outlined">schedule</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors rounded cursor-pointer">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+<div class="px-3 py-1 bg-surface-container rounded border border-outline-variant text-primary font-bold">
+                    30 AUG 2026 02:53
+                </div>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<main class="flex-1 mt-14 p-gutter overflow-x-hidden">
+<!-- Hero Metrics -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<!-- Asset Metric -->
+<div class="bg-surface-container-high border border-outline-variant rounded p-4 flex flex-col justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2">TOTAL ASSETS</span>
+<span class="font-display-lg text-display-lg text-primary text-right">12,482</span>
+</div>
+<!-- Alert Metric -->
+<div class="bg-surface-container-high border border-error/50 rounded p-4 flex flex-col justify-between status-bar-blk">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2">CRITICAL ALERTS</span>
+<span class="font-display-lg text-display-lg text-error text-right">17</span>
+</div>
+<!-- Active Blocks -->
+<div class="bg-surface-container-high border border-outline-variant rounded p-4 flex flex-col justify-between status-bar-wng">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2">ACTIVE BLOCKS</span>
+<span class="font-display-lg text-display-lg text-on-surface text-right">06</span>
+</div>
+<!-- Trains Transit -->
+<div class="bg-surface-container-high border border-outline-variant rounded p-4 flex flex-col justify-between status-bar-opr">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2">TRAINS IN TRANSIT</span>
+<span class="font-display-lg text-display-lg text-primary text-right">184</span>
+</div>
+</div>
+<!-- Main Layout Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left/Center Col: Network & Logs -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- Network Overview -->
+<div class="bg-[#1E293B] border border-outline-variant rounded p-4 h-64 flex flex-col relative overflow-hidden">
+<div class="flex justify-between items-center mb-4 z-10">
+<span class="font-label-caps text-label-caps text-primary border border-primary px-2 py-1 bg-surface-container-lowest/80 backdrop-blur-sm">LIVE_NETWORK_OVERVIEW</span>
+<span class="font-data-compact text-data-compact text-on-surface-variant">SEC_ALPHA_TO_OMEGA</span>
+</div>
+<!-- Schematic -->
+<div class="flex-1 relative flex items-center px-8 z-10">
+<!-- Base Track -->
+<div class="absolute left-4 right-4 h-1 bg-outline-variant top-1/2 -translate-y-1/2"></div>
+<div class="absolute left-4 right-4 h-1 bg-outline-variant top-[60%] -translate-y-1/2"></div>
+<!-- Active Block -->
+<div class="absolute left-1/3 w-32 h-2 top-1/2 -translate-y-1/2" style="background: repeating-linear-gradient(45deg, #f97316, #f97316 4px, transparent 4px, transparent 8px);"></div>
+<div class="absolute left-1/3 top-1/2 -translate-y-[200%] bg-surface-container px-1 border border-[#f97316] text-[#f97316] font-label-caps text-[9px]">BLK-ACTV</div>
+<!-- Train Markers -->
+<div class="absolute left-[20%] top-[45%] w-3 h-3 bg-primary border border-white pulse-marker"></div>
+<div class="absolute left-[20%] top-[35%] text-primary font-data-compact text-[10px]">T-882</div>
+<div class="absolute right-[25%] top-[60%] w-3 h-3 bg-primary border border-white pulse-marker" style="animation-delay: 0.5s;"></div>
+<div class="absolute right-[25%] top-[70%] text-primary font-data-compact text-[10px]">T-904</div>
+</div>
+</div>
+<!-- Recent Activity -->
+<div class="bg-[#1E293B] border border-outline-variant rounded flex flex-col">
+<div class="p-3 border-b border-[#334155] bg-surface-container flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant">RECENT_SYS_ACTIVITY</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">history</span>
+</div>
+<div class="p-0">
+<table class="w-full text-left font-data-compact text-data-compact">
+<tbody>
+<tr class="border-b border-[#334155] hover:bg-[#2D3748] transition-colors">
+<td class="p-2 text-on-surface-variant w-24">02:51:14</td>
+<td class="p-2 text-primary">SYS_AUTH</td>
+<td class="p-2">Block approval granted for SEC-B</td>
+<td class="p-2 text-right text-on-surface-variant">OPR_01</td>
+</tr>
+<tr class="border-b border-[#334155] hover:bg-[#2D3748] transition-colors">
+<td class="p-2 text-on-surface-variant">02:48:09</td>
+<td class="p-2 text-[#f97316]">WARN_DETECT</td>
+<td class="p-2">Signal desync detected at JCT-9</td>
+<td class="p-2 text-right text-on-surface-variant">AUTO</td>
+</tr>
+<tr class="hover:bg-[#2D3748] transition-colors">
+<td class="p-2 text-on-surface-variant">02:45:00</td>
+<td class="p-2 text-primary">SCHED_UPD</td>
+<td class="p-2">Timetable refresh complete</td>
+<td class="p-2 text-right text-on-surface-variant">SYS</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Col: AI Action Center -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<div class="bg-[#334155] border border-secondary-container rounded p-4 h-full flex flex-col">
+<div class="flex items-center gap-2 mb-4 pb-2 border-b border-outline-variant">
+<span class="material-symbols-outlined text-secondary-container">psychology</span>
+<span class="font-label-caps text-label-caps text-secondary-container">AI_ACTION_CENTER</span>
+</div>
+<div class="flex flex-col gap-4">
+<!-- XAI Card 1 -->
+<div class="border border-error/50 bg-surface-container-low p-3 relative">
+<div class="status-bar-blk absolute left-0 top-0 bottom-0"></div>
+<div class="ml-2">
+<div class="flex justify-between items-start mb-2">
+<span class="font-data-primary text-error font-bold">Turnout PT-227-II: High Risk</span>
+<span class="text-error font-data-compact text-xs bg-error/10 px-1">CONF: 94%</span>
+</div>
+<p class="font-data-compact text-[11px] text-on-surface-variant mb-3 font-mono">
+                                        IF [VIB_SENSOR_227] &gt; THRESHOLD THEN PREDICT FAILURE
+                                    </p>
+<button class="w-full bg-error text-on-error font-data-compact py-1 hover:bg-error/80 transition-colors rounded-sm uppercase tracking-widest text-[11px] font-bold">Initiate Block</button>
+</div>
+</div>
+<!-- XAI Card 2 -->
+<div class="border border-[#f97316]/50 bg-surface-container-low p-3 relative">
+<div class="status-bar-wng absolute left-0 top-0 bottom-0"></div>
+<div class="ml-2">
+<div class="flex justify-between items-start mb-2">
+<span class="font-data-primary text-[#f97316] font-bold">Block Conflict: Section A-B</span>
+<span class="text-[#f97316] font-data-compact text-xs bg-[#f97316]/10 px-1">CONF: 88%</span>
+</div>
+<p class="font-data-compact text-[11px] text-on-surface-variant mb-3 font-mono">
+                                        IF [MAINT_REQ_99] OVERLAPS [SCHED_T882] THEN WARN
+                                    </p>
+<button class="w-full bg-transparent border border-[#f97316] text-[#f97316] font-data-compact py-1 hover:bg-[#f97316]/10 transition-colors rounded-sm uppercase tracking-widest text-[11px] font-bold">Review Schedule</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<style>
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .pulse-marker {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</body></html>

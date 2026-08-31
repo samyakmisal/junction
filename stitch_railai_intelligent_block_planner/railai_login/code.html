@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RAILAI - Secure Login</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#bfc6e0",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "surface-container-high": "#242c24",
+                    "error": "#ffb4ab",
+                    "on-primary-container": "#004b1e",
+                    "surface-container-low": "#161d16",
+                    "on-background": "#dce5d9",
+                    "primary-fixed-dim": "#4ae176",
+                    "on-surface": "#dce5d9",
+                    "primary-container": "#22c55e",
+                    "primary": "#4be277",
+                    "inverse-surface": "#dce5d9",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "tertiary-container": "#a4abc4",
+                    "on-error": "#690005",
+                    "surface-variant": "#2f372e",
+                    "on-secondary-fixed-variant": "#153ea3",
+                    "on-primary-fixed-variant": "#005321",
+                    "background": "#0e150e",
+                    "tertiary-fixed": "#dae2fd",
+                    "on-secondary-fixed": "#00164e",
+                    "secondary-fixed": "#dce1ff",
+                    "outline": "#869585",
+                    "secondary": "#b5c4ff",
+                    "on-secondary": "#00287d",
+                    "on-error-container": "#ffdad6",
+                    "primary-fixed": "#6bff8f",
+                    "outline-variant": "#3d4a3d",
+                    "surface-container": "#1a221a",
+                    "on-primary": "#003915",
+                    "inverse-primary": "#006e2f",
+                    "secondary-container": "#153ea3",
+                    "surface-tint": "#4ae176",
+                    "surface-dim": "#0e150e",
+                    "inverse-on-surface": "#2a322a",
+                    "surface": "#0e150e",
+                    "surface-container-lowest": "#091009",
+                    "on-surface-variant": "#bccbb9",
+                    "on-tertiary-container": "#383f54",
+                    "on-primary-fixed": "#002109",
+                    "on-secondary-container": "#9db2ff",
+                    "surface-bright": "#333b33",
+                    "error-container": "#93000a",
+                    "on-tertiary-fixed": "#131b2e",
+                    "secondary-fixed-dim": "#b5c4ff",
+                    "on-tertiary": "#283044",
+                    "surface-container-highest": "#2f372e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "gutter": "16px",
+                    "grid-columns": "12",
+                    "margin-edge": "24px",
+                    "stack-loose": "24px",
+                    "stack-compact": "8px"
+            },
+            "fontFamily": {
+                    "data-compact": [
+                            "JetBrains Mono"
+                    ],
+                    "data-primary": [
+                            "JetBrains Mono"
+                    ],
+                    "headline-md": [
+                            "Space Grotesk"
+                    ],
+                    "display-lg": [
+                            "Space Grotesk"
+                    ],
+                    "label-caps": [
+                            "JetBrains Mono"
+                    ]
+            },
+            "fontSize": {
+                    "data-compact": [
+                            "13px",
+                            {
+                                    "lineHeight": "1.4",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "data-primary": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "letterSpacing": "0em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-caps": [
+                            "11px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "0.1em",
+                                    "fontWeight": "700"
+                            }
+                    ]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .brutalist-corner::before,
+        .brutalist-corner::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border: 1px solid theme('colors.primary');
+        }
+        .brutalist-corner-tl::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+        .brutalist-corner-tr::after { top: -1px; right: -1px; border-left: none; border-bottom: none; }
+        .brutalist-corner-bl::before { bottom: -1px; left: -1px; border-right: none; border-top: none; }
+        .brutalist-corner-br::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+        
+        /* Custom Select Arrow for HUD style */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23bccbb9%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px top 50%;
+            background-size: 10px auto;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col relative font-data-primary overflow-hidden selection:bg-primary/30">
+<!-- Background Layer -->
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity" data-alt="A highly technical, dark-mode schematic diagram of a sprawling national railway network. The image features glowing neon green and deep infrastructure blue lines representing train tracks on a near-black slate background. Small, intricate geometric nodes denote stations and critical infrastructure points. The overall aesthetic is a futuristic, high-stakes government operations center HUD, with subtle grid lines and a moody, secure atmosphere." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAXEVNCmWKBhjdTW-omF16AU0G3SFznFxAA8aGzPa-LJNHxyFES87pWLTjVO5LogWXhvjl9Ln_clY6A3sw1RUirqIdi709On33xKz-R_H4K0KZc6YmwlAu5q17hYXQPvCWuc4n-HQ-nG4MRwdDV5rY6r1mvzY9pi6Vb-Bttrq-6CFto9tqApvAJipR7wHHZlIhOF-T0fxEWyybwwCxuLhtdu34uLzJOnAJBpQSMSAhVzWmLW8ZluhYv')"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-background/80 via-background/90 to-background"></div>
+<!-- Grid Overlay -->
+<div class="absolute inset-0 bg-[linear-gradient(rgba(61,74,61,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(61,74,61,0.2)_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none opacity-50"></div>
+</div>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col items-center justify-center relative z-10 px-gutter w-full">
+<!-- HUD Status Bar Top (Decorative) -->
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-50"></div>
+<!-- Login Card -->
+<div class="w-full max-w-[440px] bg-surface-container border border-outline-variant p-stack-loose relative brutalist-corner brutalist-corner-tl brutalist-corner-tr brutalist-corner-bl brutalist-corner-br shadow-[0_0_40px_rgba(0,0,0,0.8)] backdrop-blur-sm">
+<!-- Branding Header -->
+<div class="mb-stack-loose text-center">
+<div class="flex justify-center items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-[32px] font-bold" style="font-variation-settings: 'FILL' 1;">assured_workload</span>
+<h1 class="font-display-lg text-display-lg text-primary tracking-tighter uppercase leading-none">RAILAI</h1>
+</div>
+<p class="font-data-compact text-data-compact text-on-surface-variant tracking-[0.2em] uppercase">Railway Asset Intelligence</p>
+<div class="mt-stack-compact flex items-center justify-center gap-2 text-outline">
+<div class="h-px w-8 bg-outline-variant"></div>
+<span class="font-label-caps text-label-caps tracking-widest text-on-surface-variant/70">Ministry of Railways, Govt. of India</span>
+<div class="h-px w-8 bg-outline-variant"></div>
+</div>
+</div>
+<!-- Login Form -->
+<form class="flex flex-col gap-stack-loose" onsubmit="event.preventDefault();">
+<!-- Security Indicator -->
+<div class="flex items-center gap-2 bg-surface-variant border border-outline-variant p-2 font-data-compact text-data-compact text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings: 'FILL' 1;">lock</span>
+<span>SECURE GOV CONNECTION ESTABLISHED</span>
+</div>
+<!-- Input Group: Employee ID -->
+<div class="flex flex-col gap-unit">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase flex justify-between" for="employee-id">
+<span>Employee ID</span>
+<span class="text-primary/50">REQ_AUTH</span>
+</label>
+<input class="bg-surface-dim border border-outline-variant text-on-surface p-stack-compact font-data-primary text-data-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary rounded-none transition-colors w-full placeholder:text-outline-variant" id="employee-id" placeholder="e.g. EMP-9842" type="text"/>
+</div>
+<!-- Input Group: Password -->
+<div class="flex flex-col gap-unit">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase" for="password">Access Credential</label>
+<input class="bg-surface-dim border border-outline-variant text-on-surface p-stack-compact font-data-primary text-data-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary rounded-none transition-colors w-full placeholder:text-outline-variant" id="password" placeholder="••••••••" type="password"/>
+</div>
+<!-- Input Group: Demo Role (Selector) -->
+<div class="flex flex-col gap-unit">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase flex justify-between" for="role">
+<span>Simulation Role</span>
+<span class="text-tertiary">ENV: DEMO</span>
+</label>
+<div class="relative">
+<select class="bg-surface-dim border border-outline-variant text-on-surface p-stack-compact pr-8 font-data-primary text-data-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary rounded-none transition-colors w-full cursor-pointer hover:bg-surface-variant" id="role">
+<option value="ops_controller">Operations Controller</option>
+<option value="track_manager">Track Manager</option>
+<option value="ohe_manager">OHE Manager</option>
+<option value="sys_admin">System Administrator</option>
+<option value="exec_dashboard">Executive View</option>
+</select>
+</div>
+</div>
+<!-- Action Button -->
+<button class="mt-unit bg-primary text-on-primary font-label-caps text-label-caps p-3 uppercase w-full hover:bg-primary-fixed-dim transition-all tracking-[0.15em] cursor-pointer text-center font-bold flex items-center justify-center gap-2 border border-transparent hover:border-primary-fixed focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background group" type="submit">
+<span>Initiate Session</span>
+<span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">login</span>
+</button>
+<!-- Secondary Action (Ghost) -->
+<div class="text-center mt-[-8px]">
+<a class="font-data-compact text-data-compact text-outline hover:text-primary hover:underline underline-offset-4 transition-colors" href="#">Request Access Override</a>
+</div>
+</form>
+<!-- Terminal decorative line -->
+<div class="mt-stack-loose pt-stack-compact border-t border-outline-variant/50 font-data-compact text-[10px] text-outline-variant flex justify-between uppercase tracking-widest">
+<span>SYS.V.4.2.9</span>
+<span>NODE: DEL-HQ-01</span>
+</div>
+</div>
+</main>
+<!-- Global Footer -->
+<footer class="relative z-10 w-full p-stack-loose text-center flex flex-col gap-1 items-center justify-center">
+<p class="font-data-compact text-data-compact text-on-surface-variant">
+            © 2026 Ministry of Railways, Government of India. All rights reserved.
+        </p>
+<p class="font-label-caps text-label-caps text-outline-variant max-w-2xl tracking-widest uppercase">
+            Unauthorized access to this system is strictly prohibited and subject to prosecution under the Information Technology Act, 2000.
+        </p>
+</footer>
+</body></html>

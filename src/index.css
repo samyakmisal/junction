@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #0e150e;
+    color: #dce5d9;
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* Material symbols */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+.material-symbols-outlined.filled {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Custom HUD styling */
+.hud-panel {
+  background-color: #161d16;
+  border: 1px solid #3d4a3d;
+}
+
+.hud-panel-alt {
+  background-color: #1E293B;
+  border: 1px solid #334155;
+}
+
+.hud-card {
+  background-color: #1a221a;
+  border: 1px solid #3d4a3d;
+}
+
+.hud-card-alt {
+  background-color: #334155;
+  border: 1px solid #475569;
+}
+
+/* Status Bars */
+.status-bar-opr {
+  border-left: 4px solid #4be277 !important;
+}
+
+.status-bar-wng {
+  border-left: 4px solid #f97316 !important;
+}
+
+.status-bar-blk {
+  border-left: 4px solid #ffb4ab !important;
+}
+
+.status-bar-blue {
+  border-left: 4px solid #3b82f6 !important;
+}
+
+/* Brutalist geometric borders */
+.brutalist-corner {
+  position: relative;
+}
+
+.brutalist-corner::before,
+.brutalist-corner::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1px solid #4be277;
+  pointer-events: none;
+}
+
+.brutalist-corner-tl::before {
+  top: -1px;
+  left: -1px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.brutalist-corner-tr::after {
+  top: -1px;
+  right: -1px;
+  border-left: none;
+  border-bottom: none;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0e150e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3d4a3d;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #869585;
+}
+
+/* Gantt Background grid pattern */
+.gantt-grid {
+  background-image: linear-gradient(to right, #242c24 1px, transparent 1px);
+  background-size: 60px 100%;
+}
+
+/* Radar & Signal animation */
+@keyframes radar-sweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.radar-spinner {
+  animation: radar-sweep 4s linear infinite;
+}
+
+@keyframes pulse-red {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+  70% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+.pulse-critical {
+  animation: pulse-red 2s infinite;
+}
+
+/* Hazard diagonal stripe for block overlay */
+.hazard-stripe {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(249, 115, 22, 0.25),
+    rgba(249, 115, 22, 0.25) 8px,
+    rgba(147, 0, 10, 0.3) 8px,
+    rgba(147, 0, 10, 0.3) 16px
+  );
+}
+
+.hazard-stripe-active {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(239, 68, 68, 0.4),
+    rgba(239, 68, 68, 0.4) 8px,
+    rgba(15, 23, 42, 0.8) 8px,
+    rgba(15, 23, 42, 0.8) 16px
+  );
+}
