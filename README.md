@@ -334,20 +334,22 @@ Our architecture and domain models are built directly on real-world Indian Railw
 
 ---
 
-## 👥 Team Junction (Smart India Hackathon 2026)
-
-| Name | Role | Responsibilities |
-| :--- | :--- | :--- |
-| **Samyak Misal** | **Team Lead** | Full-Stack Architecture, Optimization Engine & Project Lead |
-| **Sai Dhapte** | **Core Member** | Railway Domain Research, Track & OHE Modeling |
-| **Suraj Kolpe** | **Core Member** | Backend API & Mathematical Solver Integration |
-| **Vishv Chavan** | **Core Member** | Frontend UI/UX, Spatial GIS Map & Interactive HUD |
-| **Gauri Gandre** | **Core Member** | Data Analysis, Asset Deterioration & ML Pipeline |
-| **Sourabh Patil** | **Core Member** | Testing, Conflict Resolution Logic & Documentation |
-
 ---
 
-## 📄 License & Attribution
+## 👥 The Builders — Team Junction
 
-Developed with pride for the **Smart India Hackathon 2026** under the **Ministry of Railways, Government of India**.  
-*All rights reserved by Team Junction (2026).*
+<div align="center">
+
+| 👨‍💻 **Samyak Misal** <br/> <sub>👑 Team Lead</sub> | 🎨 **Vishv Chavan** <br/> <sub>⚡ Member 1</sub> | 📊 **Gauri Gandre** <br/> <sub>🧠 Member 2</sub> |
+| :---: | :---: | :---: |
+| 🛠️ *Full-Stack Arch & Optimization Engine* | 💻 *Frontend UI/UX & Spatial Network GIS* | 📈 *Asset Deterioration & Predictive ML* |
+
+| 🚆 **Sai Dhapte** <br/> <sub>🔬 Member 3</sub> | ⚙️ **Suraj Kolpe** <br/> <sub>🚀 Member 4</sub> | 🛡️ **Sourabh Patil** <br/> <sub>🎯 Member 5</sub> |
+| :---: | :---: | :---: |
+| 🔍 *Railway Domain Research & Track/OHE Modeling* | ⚡ *FastAPI Backend & OR-Tools Solver Integration* | 🧪 *Conflict Matrix, QA & Field Validation* |
+
+<br/>
+
+<sub>Built with ☕, passion & engineering rigor for **Smart India Hackathon 2026**</sub>
+
+</div>
