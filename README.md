@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚆 JUNCTION
+# JUNCTION
 ### **AI-Powered Automatic Block Planning to Maximize Asset Availability for Train Operations on Indian Railways**
 
 [![Smart India Hackathon 2026](https://img.shields.io/badge/SIH-2026-orange?style=for-the-badge&logo=target)](https://sih.gov.in/)
@@ -13,13 +13,13 @@
 
 > *"One system that sees the whole railway, not just one department's slice of it."*
 
-[🚀 Live Prototype](https://sihjunction.vercel.app) • [📖 Solution Overview](#-the-problem--our-solution) • [🏗️ System Architecture](#-system-architecture) • [⚙️ Technical Stack](#%EF%B8%8F-technical-stack) • [🔄 11-Step Workflow](#-end-to-end-conceptual-demo-flow) • [👥 Team](#-team-junction)
+[Live Prototype](https://sihjunction.vercel.app) • [Solution Overview](#the-problem--our-solution) • [System Architecture](#system-architecture) • [Technical Stack](#technical-stack) • [11-Step Workflow](#end-to-end-conceptual-demo-flow) • [Team](#team-junction)
 
 ---
 
 </div>
 
-## 📌 Executive Summary
+## Executive Summary
 
 | Attribute | Details |
 | :--- | :--- |
@@ -32,9 +32,9 @@
 
 ---
 
-## 🎯 The Problem & Our Solution
+## The Problem & Our Solution
 
-### 🛑 The Problem in Indian Railways Today
+### The Problem in Indian Railways Today
 Fixed-infrastructure maintenance across Indian Railways is currently planned in **departmental silos**:
 * **Civil Engineering (Track)** logs track geometry, switch, and rail defects in **TMS** (*Track Management System*).
 * **Electrical (TRD / OHE)** logs 25kV catenary wear and transformer health in **TDMS** (*Traction Distribution Management System*).
@@ -47,14 +47,14 @@ Fixed-infrastructure maintenance across Indian Railways is currently planned in 
          └───► Fragmented Block Requests (BDMS / Phone / Paper) ◄─────┘
                              │
                              ▼
-  ❌ Repeated Line Closures (Track blocked for Track work today, OHE work tomorrow)
-  ❌ Severe Passenger Train Delays (Vande Bharat / Rajdhani detained behind maintenance)
-  ❌ Suboptimal Crew & Heavy Machinery (Duomatic / BCM) Utilization
+  [!] Repeated Line Closures (Track blocked for Track work today, OHE work tomorrow)
+  [!] Severe Passenger Train Delays (Vande Bharat / Rajdhani detained behind maintenance)
+  [!] Suboptimal Crew & Heavy Machinery (Duomatic / BCM) Utilization
 ```
 
 ---
 
-### ✨ The Junction Solution
+### The Junction Solution
 **JUNCTION** unifies maintenance data, sensor condition streams, and train timetables into a single intelligent planning and decision-support platform. It groups compatible tasks from multiple departments into **coordinated "Shadow Blocks"**, schedules them during natural traffic lulls using **Constraint-Based AI Optimization**, and guarantees transparent, explainable recommendations with human-in-the-loop approval.
 
 ```
@@ -67,14 +67,14 @@ Fixed-infrastructure maintenance across Indian Railways is currently planned in 
            └──────────────────────────────────────────────┘
                                   │
                                   ▼
-  ✅ Coordinated "Shadow Blocks" (3 department tasks collapsed into 1 window)
-  ✅ Zero Passenger Train Punctuality Loss (Targeted night & traffic lull slots)
-  ✅ Transparent AI (SHAP-style explainable reasoning for Chief Controllers)
+  [+] Coordinated "Shadow Blocks" (3 department tasks collapsed into 1 window)
+  [+] Zero Passenger Train Punctuality Loss (Targeted night & traffic lull slots)
+  [+] Transparent AI (SHAP-style explainable reasoning for Chief Controllers)
 ```
 
 ---
 
-## ⚡ How JUNCTION Addresses Core Challenges
+## How JUNCTION Addresses Core Challenges
 
 ```
 ┌──────────────────────────────────────┐     ┌────────────────────────────────────────────────────────┐
@@ -90,7 +90,7 @@ Fixed-infrastructure maintenance across Indian Railways is currently planned in 
 
 ---
 
-## 💡 Key Innovations & Uniqueness
+## Key Innovations & Uniqueness
 
 1. **Predictive Maintenance Intelligence**:
    * Analyzes cumulative Gross Million Tonnes (**GMT**), Track Geometry Index (**TGI**), Ultrasonic Flaw Detection (**USFD**), and Oscillation Monitoring System (**OMS**) readings to trigger maintenance *before* physical breakdown occurs.
@@ -107,7 +107,7 @@ Fixed-infrastructure maintenance across Indian Railways is currently planned in 
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```mermaid
 graph TD
@@ -153,7 +153,7 @@ graph TD
 
 ---
 
-## 🔄 End-to-End Conceptual Demo Flow
+## End-to-End Conceptual Demo Flow
 
 The 11-step lifecycle of how JUNCTION turns raw condition signals into an executed block:
 
@@ -181,7 +181,7 @@ The 11-step lifecycle of how JUNCTION turns raw condition signals into an execut
 
 ---
 
-## 🖥️ Application Features & Module Walkthrough
+## Application Features & Module Walkthrough
 
 ### 1. Operations HUD Dashboard
 * **Corridor Health Metric**: Real-time aggregation of track reliability (e.g. 94.2%).
@@ -233,7 +233,7 @@ The 11-step lifecycle of how JUNCTION turns raw condition signals into an execut
 
 ---
 
-## 🛠️ Technical Stack
+## Technical Stack
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -262,29 +262,29 @@ The 11-step lifecycle of how JUNCTION turns raw condition signals into an execut
 
 ---
 
-## 📈 Impact & Measurable Benefits
+## Impact & Measurable Benefits
 
 ```
 ┌────────────────────────────┐  ┌────────────────────────────┐  ┌────────────────────────────┐
 │   OPERATIONAL & SOCIAL     │  │         ECONOMIC           │  │       ENVIRONMENTAL        │
 ├────────────────────────────┤  ├────────────────────────────┤  ├────────────────────────────┤
-│ • ↑ Punctuality for        │  │ • ↓ Avoidable Track        │  │ • ↓ Repeated Diesel Loco   │
-│   Superfast & Passenger    │  │   Downtime by up to 28%    │  │   Movements                │
-│ • ↓ Emergency Breakdowns   │  │ • ↑ Heavy Machine (BCM /   │  │ • ↓ Fuel Wasted During     │
-│ • Seamless Cross-Dept      │  │   Duomatic) ROI to 92%+    │  │   Extended Freight Idling   │
-│   Collaboration            │  │ • ↓ Freight Detention Cost │  │ • Supports Sustainable IR  │
+│ • Punctuality improvement  │  │ • Avoidable downtime cut   │  │ • Reduced diesel loco      │
+│   for Superfast & Express  │  │   by up to 28%             │  │   relocations              │
+│ • Lower emergency failures │  │ • Heavy machine (BCM /     │  │ • Decreased fuel burn      │
+│ • Unified inter-dept       │  │   Duomatic) ROI to 92%+    │  │   from freight idling      │
+│   possession planning      │  │ • Reduced detention costs  │  │ • Sustainable operations   │
 └────────────────────────────┘  └────────────────────────────┘  └────────────────────────────┘
 ```
 
 ### Key Impact Highlights:
-* 📉 **Fewer Repeated Blocks**: Bundling compatible jobs cuts redundant possessions by over **35%**.
-* 📈 **Higher Asset Availability**: Maximize track uptime across high-density corridors.
-* ⏱️ **Lower Train Disruption**: Dynamic re-routing preserves passenger train timetables.
-* 🛡️ **Fail-Safe Decision Support**: Transparent AI explanations with mandatory human controller sign-off.
+* **Fewer Repeated Blocks**: Bundling compatible jobs cuts redundant possessions by over **35%**.
+* **Higher Asset Availability**: Maximize track uptime across high-density corridors.
+* **Lower Train Disruption**: Dynamic re-routing preserves passenger train timetables.
+* **Fail-Safe Decision Support**: Transparent AI explanations with mandatory human controller sign-off.
 
 ---
 
-## 🔬 Field Research & Railway References
+## Field Research & Railway References
 
 Our architecture and domain models are built directly on real-world Indian Railways practices:
 * **Primary Field Research**: Conducted railway field visits and in-depth interviews with Track Engineers, OHE Traction Staff, and Section Controllers.
@@ -297,7 +297,7 @@ Our architecture and domain models are built directly on real-world Indian Railw
 
 ---
 
-## 🚀 Getting Started (Local Development)
+## Getting Started (Local Development)
 
 ### Prerequisites
 * **Node.js**: v18.0.0 or higher
@@ -334,22 +334,20 @@ Our architecture and domain models are built directly on real-world Indian Railw
 
 ---
 
----
-
-## 👥 The Builders — Team Junction
+## Team Junction
 
 <div align="center">
 
-| 👨‍💻 **Samyak Misal** <br/> <sub>👑 Team Lead</sub> | 🎨 **Vishv Chavan** <br/> <sub>⚡ Member 1</sub> | 📊 **Gauri Gandre** <br/> <sub>🧠 Member 2</sub> |
+| **Samyak Misal** <br/> <sub>Team Lead</sub> | **Vishv Chavan** <br/> <sub>Member 1</sub> | **Gauri Gandre** <br/> <sub>Member 2</sub> |
 | :---: | :---: | :---: |
-| 🛠️ *Full-Stack Arch & Optimization Engine* | 💻 *Frontend UI/UX & Spatial Network GIS* | 📈 *Asset Deterioration & Predictive ML* |
+| *Full-Stack Architecture & Optimization Engine* | *Frontend UI/UX & Spatial Network GIS* | *Asset Deterioration & Predictive ML* |
 
-| 🚆 **Sai Dhapte** <br/> <sub>🔬 Member 3</sub> | ⚙️ **Suraj Kolpe** <br/> <sub>🚀 Member 4</sub> | 🛡️ **Sourabh Patil** <br/> <sub>🎯 Member 5</sub> |
+| **Sai Dhapte** <br/> <sub>Member 3</sub> | **Suraj Kolpe** <br/> <sub>Member 4</sub> | **Sourabh Patil** <br/> <sub>Member 5</sub> |
 | :---: | :---: | :---: |
-| 🔍 *Railway Domain Research & Track/OHE Modeling* | ⚡ *FastAPI Backend & OR-Tools Solver Integration* | 🧪 *Conflict Matrix, QA & Field Validation* |
+| *Railway Domain Research & Track/OHE Modeling* | *FastAPI Backend & OR-Tools Solver Integration* | *Conflict Matrix, QA & Field Validation* |
 
 <br/>
 
-<sub>Built with ☕, passion & engineering rigor for **Smart India Hackathon 2026**</sub>
+<sub>Smart India Hackathon 2026 • Ministry of Railways (PS ID: SIH26027)</sub>
 
 </div>
